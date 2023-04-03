@@ -95,10 +95,10 @@ async def stop(ctx):
 
 
 # command to clear channel messages
-@client.command()
-async def clear(ctx, amount=5):
-    await ctx.channel.purge(limit=amount)
-    await ctx.send("Messages have been cleared")
+#@client.command()
+#async def clear(ctx, amount=5):
+#    await ctx.channel.purge(limit=amount)
+#    await ctx.send("Messages have been cleared")
 
 
 client.run(os.getenv('TOKEN'))
