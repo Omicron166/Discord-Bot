@@ -7,12 +7,15 @@ from discord.utils import get
 from discord import FFmpegPCMAudio
 from discord import TextChannel
 from youtube_dl import YoutubeDL
+from discord import Intents
 
 load_dotenv()
-client = commands.Bot(command_prefix='.')  # prefix our commands with '.'
+intents = Intents().default()
+intents.message_content = True
+
+client = commands.Bot(command_prefix='.', intents=intents)  # prefix our commands with '.'
 
 players = {}
-
 
 @client.event  # check if bot is ready
 async def on_ready():
