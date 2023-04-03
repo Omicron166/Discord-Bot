@@ -50,6 +50,7 @@ async def play(ctx, url):
         return
 
     if not voice.is_playing():
+        await ctx.send('Trying to play the song')
         with YoutubeDL(YDL_OPTIONS) as ydl:
             info = ydl.extract_info(url, download=False)
         URL = info['url']
