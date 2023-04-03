@@ -105,5 +105,9 @@ async def stop(ctx):
 #    await ctx.channel.purge(limit=amount)
 #    await ctx.send("Messages have been cleared")
 
+# just a debug command
+@client.command()
+async def debug(ctx):
+    print(opus.is_loaded())
 
 client.run(os.getenv('TOKEN'))
