@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+yt-dlp = "*"
+"discord.py" = "*"
+pynacl = "*"
+
+[dev-packages]
+pyinstaller = "*"
+
+[scripts]
+run = "python main.py"
+build = "pyinstaller main.py -y --hidden-import pynacl --hidden-import discord"
+build-compact = "pyinstaller main.py -y --hidden-import pynacl --hidden-import discord --onefile"
+
+
+[requires]
+python_version = "3.11"
