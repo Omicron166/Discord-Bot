@@ -25,7 +25,11 @@ async def on_ready():
 # command for bot to join the channel of the user, if the bot has already joined and is in a different channel, it will move to the channel the user is in
 @client.command()
 async def join(ctx):
-    channel = ctx.message.author.voice.channel
+    try:
+        channel = ctx.message.author.voice.channel
+    except AttributeError:
+        await ctx.send('Please join a voice channel')
+        return
     voice = get(client.voice_clients, guild=ctx.guild)
     if voice and voice.is_connected():
         await voice.move_to(channel)
