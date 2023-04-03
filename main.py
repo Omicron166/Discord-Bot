@@ -7,11 +7,16 @@ from discord.utils import get
 from discord import FFmpegPCMAudio
 from discord import TextChannel
 from discord import Intents
+from discord import opus
+from sys import argv as args
 from yt_dlp import YoutubeDL
 
 load_dotenv()
 intents = Intents().default()
 intents.message_content = True
+
+if args[0].endswith('.exe'):
+    opus.load_opus("opus.dll")
 
 client = commands.Bot(command_prefix='.', intents=intents)  # prefix our commands with '.'
 
