@@ -45,6 +45,10 @@ async def play(ctx, url):
         'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
     voice = get(client.voice_clients, guild=ctx.guild)
 
+    if not voice:
+        await ctx.send('Please first use .join')
+        return
+
     if not voice.is_playing():
         with YoutubeDL(YDL_OPTIONS) as ydl:
             info = ydl.extract_info(url, download=False)
