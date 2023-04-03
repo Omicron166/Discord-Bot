@@ -1,11 +1,9 @@
-import discord
 import os
 # load our local env so we dont have the token in public
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord.utils import get
 from discord import FFmpegPCMAudio
-from discord import TextChannel
 from discord import Intents
 from discord import opus
 from sys import argv as args
