@@ -49,8 +49,16 @@ async def play(ctx, url):
     voice = get(client.voice_clients, guild=ctx.guild)
 
     if not voice:
-        await ctx.send('Please first use .join')
-        return
+        try:
+            channel = ctx.message.author.voice.channel
+        except AttributeError:
+            await ctx.send('Please join a voice channel')
+            return
+        voice = get(client.voice_clients, guild=ctx.guild)
+        if voice and voice.is_connected():
+            await voice.move_to(channel)
+        else:
+            voice = await channel.connect()
 
     if not voice.is_playing():
         await ctx.send('Trying to play the song')
