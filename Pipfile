@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-yt-dlp = "*"
-"discord.py" = "*"
-pynacl = "*"
+yt-dlp = ">=2023.3.4"
+"discord.py" = ">=2.2.2"
+pynacl = ">=1.5.0"
 
 [dev-packages]
 pyinstaller = "*"
@@ -16,6 +16,5 @@ run = "python main.py"
 build = "pyinstaller main.py -y --hidden-import pynacl --hidden-import discord"
 build-compact = "pyinstaller main.py -y --hidden-import pynacl --hidden-import discord --onefile"
 
-
 [requires]
-python_version = "3.11"
+python_version = "3"
