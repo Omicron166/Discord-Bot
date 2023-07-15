@@ -28,7 +28,7 @@ client = commands.Bot(command_prefix=config["prefix"], intents=intents)  # prefi
 
 @client.event  # check if bot is ready
 async def on_ready():
-    print('Bot online')
+    print('Bot online as', client.user.name)
 
 
 # command for bot to join the channel of the user, if the bot has already joined and is in a different channel, it will move to the channel the user is in
