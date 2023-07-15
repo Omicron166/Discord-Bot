@@ -18,7 +18,7 @@ if args[0].endswith('.exe'):
 
 client = commands.Bot(command_prefix=config["prefix"], intents=intents)  # prefix our commands with '.'
 
-players = {}
+#players = {}
 
 @client.event  # check if bot is ready
 async def on_ready():
@@ -53,7 +53,7 @@ async def play(ctx, url):
         except AttributeError:
             await ctx.send('Please join a voice channel')
             return
-        voice = get(client.voice_clients, guild=ctx.guild)
+        #voice = get(client.voice_clients, guild=ctx.guild)
         if voice and voice.is_connected():
             await voice.move_to(channel)
         else:
@@ -65,7 +65,7 @@ async def play(ctx, url):
             info = ydl.extract_info(url, download=False)
         URL = info['url']
         voice.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
-        voice.is_playing()
+        #voice.is_playing()
         await ctx.send('Bot is playing')
 
 # check if the bot is already playing
@@ -102,6 +102,7 @@ async def stop(ctx):
     if voice.is_playing():
         voice.stop()
         await ctx.send('Stopping...')
+    voice.disconnect()
 
 
 # command to clear channel messages
