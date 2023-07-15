@@ -16,7 +16,7 @@ if args[0].endswith('.exe'):
     from discord import opus
     opus.load_opus("opus.dll")
 
-client = commands.Bot(command_prefix='.', intents=intents)  # prefix our commands with '.'
+client = commands.Bot(command_prefix=config["prefix"], intents=intents)  # prefix our commands with '.'
 
 players = {}
 
@@ -44,8 +44,7 @@ async def on_ready():
 @client.command()
 async def play(ctx, url):
     YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True'}
-    FFMPEG_OPTIONS = {
-        'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+    FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
     voice = get(client.voice_clients, guild=ctx.guild)
 
     if not voice:
