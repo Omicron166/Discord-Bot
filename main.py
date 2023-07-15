@@ -59,7 +59,7 @@ async def play(ctx, url):
         except AttributeError:
             await ctx.send('Please join a voice channel')
             return
-        #voice = get(client.voice_clients, guild=ctx.guild)
+
         if voice and voice.is_connected():
             await voice.move_to(channel)
         else:
@@ -71,7 +71,6 @@ async def play(ctx, url):
             info = ydl.extract_info(url, download=False)
         URL = info['url']
         voice.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
-        #voice.is_playing()
         await ctx.send('Bot is playing')
 
 # check if the bot is already playing
@@ -110,12 +109,6 @@ async def stop(ctx):
 #        await ctx.send('Stopping...')
     await voice.disconnect()
 
-
-# command to clear channel messages
-#@client.command()
-#async def clear(ctx, amount=5):
-#    await ctx.channel.purge(limit=amount)
-#    await ctx.send("Messages have been cleared")
 
 # just a debug command
 @client.command()
