@@ -2,7 +2,6 @@ from discord.ext import commands
 from discord.utils import get
 from discord import FFmpegPCMAudio
 from discord import Intents
-from discord import opus
 from sys import argv as args
 from yt_dlp import YoutubeDL
 import json
@@ -14,6 +13,7 @@ intents = Intents().default()
 intents.message_content = True
 
 if args[0].endswith('.exe'):
+    from discord import opus
     opus.load_opus("opus.dll")
 
 client = commands.Bot(command_prefix='.', intents=intents)  # prefix our commands with '.'
