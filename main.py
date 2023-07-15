@@ -3,10 +3,16 @@ from discord.utils import get
 from discord import FFmpegPCMAudio
 from discord import Intents
 from sys import argv as args
+from os.path import isfile
 from yt_dlp import YoutubeDL
 import json
 
-with open('config.json', 'r') as f:
+if isfile('./config.json'):
+    path = './config.json'
+else:
+    path = args[1]
+
+with open(path, 'r') as f:
     config = json.load(f)
 
 intents = Intents().default()
