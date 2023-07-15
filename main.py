@@ -1,10 +1,9 @@
 from discord.ext import commands
 from discord.utils import get
-from discord import FFmpegPCMAudio
 from discord import Intents
 from sys import argv as args
 from os.path import isfile
-from yt_dlp import YoutubeDL
+from core.player import QueuePlayer
 import json
 
 if isfile('./config.json'):
@@ -15,9 +14,6 @@ else:
 with open(path, 'r') as f:
     config = json.load(f)
 
-YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True'}
-FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
-
 intents = Intents().default()
 intents.message_content = True
 
@@ -26,6 +22,8 @@ if args[0].endswith('.exe'):
     opus.load_opus("opus.dll")
 
 client = commands.Bot(command_prefix=config["prefix"], intents=intents)  # prefix our commands with '.'
+
+queue = QueuePlayer(client)
 
 @client.event  # check if bot is ready
 async def on_ready():
@@ -64,18 +62,21 @@ async def play(ctx, url):
         else:
             voice = await channel.connect()
 
+    queue.add(ctx, url)
     if not voice.is_playing():
-        await ctx.send('Trying to play the song')
-        with YoutubeDL(YDL_OPTIONS) as ydl:
-            info = ydl.extract_info(url, download=False)
-        voice.play(FFmpegPCMAudio(info['url'], **FFMPEG_OPTIONS))
-        await ctx.send('Bot is playing')
+        queue.play_next(ctx)
+        await ctx.send('Playing the song')
 
     # check if the bot is already playing
     else:
-        await ctx.send("Bot is already playing")
+        await ctx.send('Song added to queue')
         return
 
+@client.command()
+async def skip(ctx):
+    voice = get(client.voice_clients, guild=ctx.guild)
+    if not voice: return
+    if voice.is_playing(): voice.stop()
 
 # command to resume voice if it is paused
 @client.command()
