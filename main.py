@@ -105,10 +105,10 @@ async def pause(ctx):
 async def stop(ctx):
     voice = get(client.voice_clients, guild=ctx.guild)
 
-    if voice.is_playing():
-        voice.stop()
-        await ctx.send('Stopping...')
-    voice.disconnect()
+#    if voice.is_playing():
+#        voice.stop()
+#        await ctx.send('Stopping...')
+    await voice.disconnect()
 
 
 # command to clear channel messages
