@@ -10,6 +10,7 @@ pynacl = ">=1.5.0"
 
 [dev-packages]
 pyinstaller = "*"
+pywin32-ctypes = "*"
 
 [scripts]
 run = "python main.py"
