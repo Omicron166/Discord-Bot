@@ -3,8 +3,13 @@ from discord.utils import get
 from discord import Intents
 from sys import argv as args
 from os.path import isfile
+from yt_dlp import YoutubeDL
 from core.player import QueuePlayer
 import json
+
+YDL_OPTIONS = {
+    'format': 'bestaudio', 'noplaylist': 'True'
+}
 
 if isfile('./config.json'):
     path = './config.json'
@@ -61,8 +66,15 @@ async def play(ctx, url):
             await voice.move_to(channel)
         else:
             voice = await channel.connect()
+    try:
+        await ctx.send('Parsing url')
+        with YoutubeDL(YDL_OPTIONS) as ydl:
+            info = ydl.extract_info(url, download=False)
+    except:
+        await ctx.send('Invalid url')
+        return
 
-    queue.add(ctx, url)
+    queue.add(ctx, info)
     if not voice.is_playing():
         await ctx.send('Playing the song')
         queue.play_next(ctx)
@@ -70,7 +82,6 @@ async def play(ctx, url):
     # check if the bot is already playing
     else:
         await ctx.send('Song added to queue')
-        return
 
 @client.command()
 async def skip(ctx):
