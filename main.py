@@ -5,6 +5,7 @@ from sys import argv as args
 from os.path import isfile
 from yt_dlp import YoutubeDL
 from core.player import QueuePlayer
+from discord import opus
 import json
 
 YDL_OPTIONS = {
@@ -22,8 +23,8 @@ with open(path, 'r') as f:
 intents = Intents().default()
 intents.message_content = True
 
-if args[0].endswith('.exe'):
-    from discord import opus
+if not opus.is_loaded():
+    print('Trying to load opus from dll')
     opus.load_opus("opus.dll")
 
 client = commands.Bot(command_prefix=config["prefix"], intents=intents)  # prefix our commands with '.'
