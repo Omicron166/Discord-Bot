@@ -64,8 +64,8 @@ async def play(ctx, url):
 
     queue.add(ctx, url)
     if not voice.is_playing():
-        queue.play_next(ctx)
         await ctx.send('Playing the song')
+        queue.play_next(ctx)
 
     # check if the bot is already playing
     else:
@@ -76,7 +76,9 @@ async def play(ctx, url):
 async def skip(ctx):
     voice = get(client.voice_clients, guild=ctx.guild)
     if not voice: return
-    if voice.is_playing(): voice.stop()
+    if voice.is_playing(): 
+        voice.stop()
+        await ctx.send("Song skipped")
 
 # command to resume voice if it is paused
 @client.command()
@@ -85,7 +87,7 @@ async def resume(ctx):
 
     if not voice.is_playing():
         voice.resume()
-        await ctx.send('Bot is resuming')
+        await ctx.send('Resuming music')
 
 
 # command to pause voice if it is playing
@@ -95,7 +97,7 @@ async def pause(ctx):
 
     if voice.is_playing():
         voice.pause()
-        await ctx.send('Bot has been paused')
+        await ctx.send('Music paused')
 
 
 # command to stop voice
