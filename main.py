@@ -115,11 +115,8 @@ async def pause(ctx):
 # command to stop voice
 @client.command()
 async def stop(ctx):
+    queue.del_queue(ctx)
     voice = get(client.voice_clients, guild=ctx.guild)
-
-#    if voice.is_playing():
-#        voice.stop()
-#        await ctx.send('Stopping...')
     await voice.disconnect()
 
 
