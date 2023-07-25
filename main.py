@@ -149,4 +149,17 @@ async def stop(ctx):
 async def debug(ctx):
     print(opus.is_loaded())
 
+@client.event
+async def on_voice_state_update(member, before, after):
+    # Verificar si el miembro afectado no es el bot
+    if member != client.user:
+        # Verificar si el bot se ha desconectado del canal de voz actual
+        if before.channel and not after.channel and before.channel == member.guild.voice_client.channel:
+            # Verificar si no hay otros miembros en el canal de voz antes de desconectar
+            if len(before.channel.members) == 1:
+                voice_client = client.voice_clients[0]
+                if voice_client and voice_client.is_connected():
+                    await voice_client.disconnect()
+
+
 client.run(config["token"])

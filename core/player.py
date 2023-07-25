@@ -51,7 +51,6 @@ class QueuePlayer:
 
         if len(self.queues.get(ctx.guild.id)) <= 0:
             self.del_queue(ctx)
-            voice.disconnect()
             return
 
         info = self.queues[ctx.guild.id].pop(0)
