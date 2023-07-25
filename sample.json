@@ -1,4 +1,5 @@
 {
     "token": "PUT_YOUR_TOKEN_HERE",
-    "prefix": "."
+    "prefix": ".",
+    "bundle": false
 }

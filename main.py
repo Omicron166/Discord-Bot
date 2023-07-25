@@ -23,7 +23,7 @@ with open(path, 'r') as f:
 intents = Intents().default()
 intents.message_content = True
 
-if not opus.is_loaded():
+if config['bundle']:
     print('Trying to load opus from dll')
     opus.load_opus("opus.dll")
 
