@@ -75,7 +75,7 @@ async def play(ctx, url):
         await ctx.send('Invalid url')
         return
 
-    queue.add(ctx, info)
+    queue.add_song(ctx, info)
     if not voice.is_playing():
         queue.play_next(ctx)
 

@@ -21,9 +21,9 @@ class QueuePlayer:
         self.queues = {}
         self.client = client
 
-    def add(self, ctx: context, info: dict):
+    def add_song(self, ctx: context, info: dict):
         if not self.queues.get(ctx.guild.id):
-            self.queues[ctx.guild.id] = []
+            self.create_queue(ctx)
         self.queues[ctx.guild.id].append(info)
 
     def loop_song(self, ctx: context, info: dict):
@@ -36,6 +36,9 @@ class QueuePlayer:
         if not self.queues.get(ctx.guild.id): return []
         return self.queues[ctx.guild.id]
     
+    def create_queue(self, ctx: context):
+        self.queues[ctx.guild.id] = []
+
     def del_queue(self, ctx: context):
         try: del self.queues[ctx.guild.id]
         except: pass
