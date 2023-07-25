@@ -5,12 +5,9 @@
 ## Feature:
 
 - Join the channel you're in
-- Play from Youtube / Any platform supported by yt-dlp
-- Skip command
-- Pause command
-- Stop command
-- Resume command
+- Play from Youtube / Any platform supported by yt-dlp (also works with http streams)
 - Song queue
+- Pause and resume the song
 
 ## To do:
 
@@ -23,7 +20,8 @@ If you are a normie who just wants to use the bot, you can download the compiled
 ![](./images/release.jpg)
 <br> Also don't forget to put your token and prefix in `config.json`
 ### For Linux users:
+- Install python 3
+- Install ffmpeg
 - Clone the repo
 - Run a `pip install -r requirements.txt` or a `pipenv install -r requirements.txt`, pick your favourite option.
 - Fill the `config.json`.
-- Check you have ffmpeg installed
