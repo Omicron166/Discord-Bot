@@ -17,11 +17,20 @@ class QueuePlayer:
     def get_queue(self, ctx: context):
         if not self.queues.get(ctx.guild.id): return []
         return self.queues[ctx.guild.id]
+    
+    def del_queue(self, ctx: context):
+        del self.queues[ctx.guild.id]
 
     def play_next(self, ctx: context):
-        if len(self.queues.get(ctx.guild.id)) <= 0: return
         voice = get(self.client.voice_clients, guild=ctx.guild)
-        if not voice: return
+        if not voice:
+            self.del_queue(ctx)
+            return
+
+        if len(self.queues.get(ctx.guild.id)) <= 0:
+            self.del_queue(ctx)
+            voice.disconnect()
+            return
 
         info = self.queues[ctx.guild.id].pop(0)
         voice.play(FFmpegPCMAudio(info['url'], **FFMPEG_OPTIONS), after=lambda e: self.play_next(ctx))
