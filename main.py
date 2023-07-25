@@ -77,12 +77,11 @@ async def play(ctx, url):
 
     queue.add(ctx, info)
     if not voice.is_playing():
-        await ctx.send('Playing the song')
         queue.play_next(ctx)
 
     # check if the bot is already playing
     else:
-        await ctx.send('Song added to queue')
+        await ctx.send(f'Song "{info["title"]}" added to queue')
 
 @client.command()
 async def skip(ctx):

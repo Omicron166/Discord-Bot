@@ -1,6 +1,7 @@
 from discord.ext.commands import context, Bot
 from discord.utils import get
 from discord import FFmpegPCMAudio
+import asyncio
 
 FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
 
@@ -19,7 +20,8 @@ class QueuePlayer:
         return self.queues[ctx.guild.id]
     
     def del_queue(self, ctx: context):
-        del self.queues[ctx.guild.id]
+        try: del self.queues[ctx.guild.id]
+        except: pass
 
     def play_next(self, ctx: context):
         voice = get(self.client.voice_clients, guild=ctx.guild)
@@ -33,4 +35,5 @@ class QueuePlayer:
             return
 
         info = self.queues[ctx.guild.id].pop(0)
+        asyncio.get_event_loop().create_task(ctx.send('Now playing: ' + info['title']))
         voice.play(FFmpegPCMAudio(info['url'], **FFMPEG_OPTIONS), after=lambda e: self.play_next(ctx))
