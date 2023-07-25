@@ -83,6 +83,31 @@ async def play(ctx, url):
     else:
         await ctx.send(f'Song "{info["title"]}" added to queue')
 
+#https://www.youtube.com/watch?v=ISNP9UgeQ0I
+@client.command()
+async def loop(ctx, url):
+    voice = get(client.voice_clients, guild=ctx.guild)
+
+    if voice: voice.disconnect()
+    try:
+        channel = ctx.message.author.voice.channel
+    except AttributeError:
+        await ctx.send('Please join a voice channel')
+        return
+    voice = await channel.connect()
+
+    try:
+        await ctx.send('Parsing url')
+        with YoutubeDL(YDL_OPTIONS) as ydl:
+            info = ydl.extract_info(url, download=False)
+    except:
+        await ctx.send('Invalid url')
+        return
+    
+    queue.del_queue(ctx)
+    queue.loop_song(ctx, info)
+    await ctx.send('Now looping: ' + info['title'])
+
 @client.command()
 async def skip(ctx):
     voice = get(client.voice_clients, guild=ctx.guild)

@@ -5,6 +5,17 @@ import asyncio
 
 FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
 
+class Loop:
+    def __init__(self, value) -> None:
+        self.value = value
+        self.is_loop = True
+    
+    def __len__(self):
+        return 1
+
+    def pop(self, index = 0):
+        return self.value
+
 class QueuePlayer:
     def __init__(self, client: Bot):
         self.queues = {}
@@ -14,6 +25,12 @@ class QueuePlayer:
         if not self.queues.get(ctx.guild.id):
             self.queues[ctx.guild.id] = []
         self.queues[ctx.guild.id].append(info)
+
+    def loop_song(self, ctx: context, info: dict):
+        loop = Loop(info)
+        self.del_queue(ctx)
+        self.queues[ctx.guild.id] = loop
+        self.play_next(ctx)
 
     def get_queue(self, ctx: context):
         if not self.queues.get(ctx.guild.id): return []
